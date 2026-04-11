@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Dia 2 — Corpo, Giromin e Programação</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<style>
+  :root {
+    --bg:     #ffffff;
+    --fg:     #111111;
+    --dim:    #999999;
+    --border: #dddddd;
+  }
+
+  .reveal-viewport { background: var(--bg); }
+  .reveal { font-family: 'Menlo', 'Courier New', monospace; color: var(--fg); }
+
+  .reveal .slides section { padding: 0; height: 100%; }
+  .reveal .slides section[style*="height:100%"] { top: 0 !important; }
+
+  .reveal h1 { font-size: 2.4em; font-weight: normal; color: var(--fg); letter-spacing: -.01em; text-align: left !important; }
+  .reveal h2 { font-size: 1.3em; font-weight: normal; color: var(--fg); text-align: left !important; }
+
+  .cursor { display: inline-block; animation: blink 1.1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .label {
+    font-size: .55em !important;
+    color: var(--dim) !important;
+    letter-spacing: .12em;
+    align-self: flex-start;
+    font-family: 'Menlo', monospace;
+  }
+
+  /* ── título ── */
+  .title-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+    padding: 3.5rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+  }
+  .title-slide .pre { font-size: .6em; color: var(--dim); margin-bottom: 1.2em; }
+  .title-slide h1   { margin: 0 0 .3em; line-height: 1.05; }
+  .title-slide .sub { font-size: .65em; color: var(--dim); margin-top: 1.8em; line-height: 2; }
+
+  /* ── slide de tópico simples ── */
+  .topic-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+    padding: 3.5rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+    gap: 1.5rem;
+  }
+  .topic-slide h2 { font-size: 1.8em; font-weight: normal; color: var(--fg); margin: 0; }
+  .topic-slide p  { font-size: .75em; color: #444; line-height: 1.9; margin: 0; }
+  .topic-slide ul { font-size: .72em; color: #444; line-height: 2; margin: 0; padding-left: 1.2em; }
+
+  /* ── slide de atividade ── */
+  .activity-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 3rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+    gap: 1.2rem;
+    overflow: hidden;
+  }
+  .activity-slide h2 { font-size: 1.4em; font-weight: normal; color: var(--fg); margin: 0; border-bottom: 1px solid var(--border); padding-bottom: .8rem; width: 100%; }
+
+  /* ── slide com barra de rolagem ── */
+  .scroll-slide {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    padding: 3rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .scroll-slide h2 { font-size: 1.4em; font-weight: normal; color: var(--fg); margin: 0 0 1.5rem; flex-shrink: 0; }
+  .scroll-inner {
+    overflow-y: scroll;
+    flex: 1;
+    min-height: 0;
+    padding-right: .5rem;
+  }
+  .scroll-inner p, .scroll-inner li { font-size: .72em; color: #444; line-height: 2; }
+  .scroll-inner ul { padding-left: 1.2em; }
+  .scroll-inner .step {
+    border-left: 2px solid var(--border);
+    padding: .8rem 0 .8rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .scroll-inner .step .num { font-size: .65em; color: var(--dim); display: block; margin-bottom: .3rem; letter-spacing: .1em; }
+  .scroll-inner .step p { margin: 0; }
+
+  /* ── código inline ── */
+  code {
+    font-family: 'Menlo', monospace;
+    font-size: .9em;
+    background: #f5f5f5;
+    padding: .1em .35em;
+    border-radius: 2px;
+    color: #333;
+  }
+
+  /* ── destaque ── */
+  .highlight-box {
+    background: #f9f9f9;
+    border: 1px solid var(--border);
+    padding: 1rem 1.4rem;
+    font-size: .68em;
+    color: #444;
+    line-height: 1.9;
+    width: 100%;
+    box-sizing: border-box;
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ── 1. TÍTULO ─────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// dia 2 — corpo, giromin e programação</div>
+    <h1>Corpo e<br>Sensor:<br>Giromin<span class="cursor">_</span></h1>
+    <div class="sub">
+      João Tragtenberg &amp; Iara Izidoro
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. VERSÕES DO GIROMIN ───────────────────────────────────────── -->
+<section>
+  <div style="display:flex!important;flex-direction:column;height:100%;background:var(--bg);padding:2rem 2rem 1.5rem;box-sizing:border-box;">
+    <div style="flex-shrink:0;font-family:Menlo,monospace;margin-bottom:1rem;">
+      <div style="font-size:.55em;color:#999;letter-spacing:.12em;">// versões do giromin</div>
+    </div>
+    <div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;">
+      <img src="midia/versoes-giromin.png" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
+    </div>
+  </div>
+</section>
+
+<!-- ── 2b. VÍDEOS DO GIROMIN ──────────────────────────────────────── -->
+<section>
+  <div style="display:flex!important;flex-direction:column;height:100%;background:var(--bg);padding:2rem 2rem 1.5rem;box-sizing:border-box;">
+    <div style="flex-shrink:0;font-family:Menlo,monospace;margin-bottom:1rem;">
+      <div style="font-size:.55em;color:#999;letter-spacing:.12em;">// giromin em uso</div>
+    </div>
+    <div id="videos-scroll" style="flex:1;min-height:0;overflow-y:scroll;display:flex;flex-direction:column;gap:2rem;padding-right:.5rem;">
+      <div style="position:relative;width:100%;padding-bottom:56.25%;">
+        <iframe src="https://www.youtube.com/embed/PxpTILzhMuo" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+      </div>
+      <div style="position:relative;width:100%;padding-bottom:56.25%;">
+        <iframe src="https://www.youtube.com/embed/lXWIkNzJOwc" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+      </div>
+      <div style="position:relative;width:100%;padding-bottom:56.25%;">
+        <iframe src="https://www.youtube.com/embed/n-Zs-_0pivQ" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+      </div>
+      <div style="position:relative;width:100%;padding-bottom:56.25%;">
+        <iframe src="https://www.youtube.com/embed/psLjM6EXNDc" style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. MICROCONTROLADORES ─────────────────────────────────────── -->
+<section>
+  <div class="topic-slide">
+    <div class="label">// microcontroladores</div>
+    <h2>O que é um<br>microcontrolador?</h2>
+  </div>
+</section>
+
+<!-- ── 3. PROGRAMAÇÃO ─────────────────────────────────────────────── -->
+<section>
+  <div class="topic-slide">
+    <div class="label">// programação</div>
+    <h2>Linguagens de<br>programação</h2>
+    <p>Conhecem alguma linguagem de programação?</p>
+  </div>
+</section>
+
+<!-- ── 3b. C / C++ ────────────────────────────────────────────────── -->
+<section>
+  <div class="topic-slide">
+    <div class="label">// programação</div>
+    <h2>C / C++</h2>
+    <div class="highlight-box">
+      O Giromin foi programado em <strong>C / C++</strong> — texto que um compilador traduz para linguagem de máquina.<br><br>
+      Fluxo: <code>código C</code> → <code>compilador</code> → <code>binário</code> → <code>ESP32</code>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3b. ESP32 — FOTO DA PLACA ──────────────────────────────────── -->
+<section>
+  <div style="display:flex!important;flex-direction:column;height:100%;background:var(--bg);">
+    <div class="label" style="padding:1.2rem 2rem 0;flex-shrink:0;">// esp32 — a placa</div>
+    <div id="esp32-scroll" style="flex:1;overflow-y:scroll;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:1.5rem;">
+      <img src="midia/esp32-HD.jpg" style="width:100%;display:block;filter:saturate(.8);">
+      <img src="midia/esp32-pcb-layout-example.png" style="width:100%;display:block;background:#f5f5f5;padding:1rem;box-sizing:border-box;">
+    </div>
+  </div>
+</section>
+
+<!-- ── 4. SENSORES INERCIAIS ──────────────────────────────────────── -->
+<section>
+  <div class="topic-slide">
+    <div class="label">// sensores inerciais</div>
+    <h2>MEMS — Sistemas<br>Micro-Eletro-Mecânicos</h2>
+    <ul>
+      <li>Estruturas mecânicas microscópicas fabricadas em silício</li>
+      <li>Vibram ou se deformam com movimento</li>
+      <li>Essa deformação gera sinal elétrico mensurável</li>
+      <li>Presentes em todo smartphone, controle de videogame, drone</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── 4b. MEMS — IMAGEM SEM + VÍDEO ─────────────────────────────── -->
+<section>
+  <div style="display:flex!important;flex-direction:column;height:100%;background:var(--bg);padding:2rem 2rem 1.5rem;box-sizing:border-box;">
+    <div style="flex-shrink:0;font-family:Menlo,monospace;margin-bottom:1rem;">
+      <div style="font-size:.55em;color:#999;letter-spacing:.12em;">// mems — microscopia eletrônica de varredura</div>
+    </div>
+    <div id="mems-scroll" style="flex:1;min-height:0;overflow-y:scroll;display:flex;flex-direction:column;gap:2rem;padding-right:.5rem;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/SEM_images_of_a_fabricated_tuning_fork_gyroscope.png"
+           style="max-width:100%;height:auto;display:block;align-self:flex-start;background:#f5f5f5;">
+      <div style="position:relative;width:100%;padding-bottom:56.25%;flex-shrink:0;">
+        <iframe src="https://www.youtube.com/embed/eqZgxR6eRjo?start=10"
+                style="position:absolute;inset:0;width:100%;height:100%;border:none;" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5. SISTEMA VESTIBULAR — FOTO ───────────────────────────────── -->
+<section>
+  <div style="display:flex!important;flex-direction:column;height:100%;background:var(--bg);padding:2rem 2rem 1.5rem;box-sizing:border-box;">
+    <div style="flex-shrink:0;font-family:Menlo,monospace;margin-bottom:1rem;">
+      <div style="font-size:.55em;color:#999;letter-spacing:.12em;margin-bottom:.8rem;">// sistema vestibular</div>
+      <div style="font-size:.8em;color:#111;line-height:1.9;">
+        Labirinto do ouvido interno — detecta aceleração linear e velocidade angular.<br>
+        O mesmo que o MPU6050 faz em silício.
+      </div>
+    </div>
+    <div id="vestibular-scroll" style="flex:1;min-height:0;overflow-y:scroll;">
+      <img src="midia/sistema-vestibular.jpg" style="width:100%;display:block;">
+    </div>
+  </div>
+</section>
+
+<!-- ── 6. ACELERÔMETRO ────────────────────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// acelerômetro</div>
+    <h2>Acelerômetro</h2>
+    <div class="scroll-inner" id="accel-scroll">
+      <p>Mede <strong>aceleração linear</strong> nos 3 eixos (X, Y, Z) em g (gravidade = 9,8 m/s²).</p>
+      <br>
+      <p>Em repouso, o eixo alinhado com a gravidade lê <strong>±1g</strong>. Os outros leem <strong>≈0</strong>.</p>
+      <br>
+      <p>Eixos: X = lateral · Y = frente/trás · Z = cima/baixo</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 7. GIROSCÓPIO ──────────────────────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// giroscópio</div>
+    <h2>Giroscópio</h2>
+    <div class="scroll-inner" id="gyro-scroll">
+      <p>Mede <strong>velocidade angular</strong> em graus/segundo. Não mede posição — mede <em>quão rápido</em> está girando.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 6c. GIROSCÓPIO — SIMULAÇÃO GLOWSCRIPT ──────────────────────── -->
+<section style="padding:0!important;width:100%;height:100%;">
+  <div style="position:absolute;top:0;left:0;right:0;z-index:10;padding:.5rem 1rem;background:rgba(255,255,255,.9);font-family:Menlo,monospace;font-size:.55em;color:#999;letter-spacing:.12em;pointer-events:none;">// simulação de giroscópio — glowscript.org</div>
+  <iframe src="https://www.glowscript.org/#/user/spicklemire/folder/USAFA-SFFP-2020/program/gyro"
+          style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>
+</section>
+
+<!-- ── 6d. FUSÃO DE SENSORES — MADGWICK ───────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// fusão de sensores</div>
+    <h2>Madgwick AHRS</h2>
+    <div class="scroll-inner" id="ahrs-scroll">
+      <div class="step">
+        <span class="num">// o problema</span>
+        <p>O giroscópio integra velocidade angular para estimar ângulo — mas acumula erro com o tempo (<em>drift</em>).<br>
+        O acelerômetro sabe onde é "baixo" (gravidade), mas é ruidoso durante movimento.</p>
+      </div>
+      <div class="step">
+        <span class="num">// a solução</span>
+        <p><strong>AHRS</strong> — Attitude and Heading Reference System.<br>
+        Combina os dois: o giroscópio rastreia rotação rápida, o acelerômetro corrige continuamente o eixo vertical.</p>
+      </div>
+      <div class="step">
+        <span class="num">// madgwick</span>
+        <p>Algoritmo de fusão eficiente — roda em tempo real no ESP32.<br>
+        Saída: <strong>quaternion</strong> (w, x, y, z) que representa a orientação completa no espaço 3D.</p>
+      </div>
+      <div class="step">
+        <span class="num">// quaternion → ângulos</span>
+        <p>Do quaternion derivam-se os ângulos de Euler: <strong>roll</strong> (tombamento) · <strong>pitch</strong> (inclinação) · <strong>yaw</strong> (rotação horizontal).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 7. RELAÇÃO COM O CORPO ─────────────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// relação com o corpo</div>
+    <h2>Corpo e máquina</h2>
+    <div class="scroll-inner" id="corpo-scroll">
+      <div class="step">
+        <span class="num">// microcontrolador</span>
+        <p>→ <strong>cérebro mecanicista</strong> — valores embutidos, sem improviso.<br>
+        Executa exatamente o que foi programado, na mesma ordem, sempre.</p>
+      </div>
+      <div class="step">
+        <span class="num">// sensores</span>
+        <p>→ <strong>percepção</strong> — análogo ao sistema vestibular.<br>
+        Captam aceleração e rotação assim como o labirinto do ouvido interno capta equilíbrio e movimento da cabeça.</p>
+      </div>
+      <div class="step">
+        <span class="num">// programação</span>
+        <p>→ <strong>condicionamento da escuta e percepção corporal</strong>.<br>
+        O código define o que o sistema "presta atenção" — assim como treinamento corporal afina a percepção cinestésica.</p>
+      </div>
+      <div class="step">
+        <span class="num">// pergunta</span>
+        <p>O que muda quando colocamos esse sistema no corpo e dançamos com ele?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 7b. MÃOS NA MASSA ───────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// prática</div>
+    <h1>Mãos na<br>massa<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+<!-- ── 8. INSTALAÇÕES ─────────────────────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// instalações</div>
+    <h2>Instalar antes de começar</h2>
+    <div class="scroll-inner" id="install-scroll">
+      <div class="step">
+        <span class="num">// PlugData</span>
+        <p>→ <a href="https://plugdata.org/download.html" target="_blank">plugdata.org/download.html</a></p>
+      </div>
+      <div class="step">
+        <span class="num">// Protokol</span>
+        <p>→ <a href="https://hexler.net/protokol#get" target="_blank">hexler.net/protokol</a></p>
+      </div>
+      <div class="step">
+        <span class="num">// Arduino IDE</span>
+        <p>→ <a href="https://www.arduino.cc/en/software/" target="_blank">arduino.cc/en/software</a></p>
+      </div>
+      <div class="step">
+        <span class="num">// Driver USB-UART para ESP32</span>
+        <p>→ <a href="https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads" target="_blank">silabs.com — CP210x VCP Drivers</a></p>
+      </div>
+      <div class="step">
+        <span class="num">// Repositório com exemplos</span>
+        <p>→ <a href="https://github.com/jtragtenberg/oficina-programacao-danca" target="_blank">github.com/jtragtenberg/oficina-programacao-danca</a><br>
+        Códigos Arduino, patches PlugData, externals do Giromin, apresentações</p>
+      </div>
+      <div class="step">
+        <span class="num">// Configurar placa ESP32 no Arduino IDE</span>
+        <p>Tools → Board → Boards Manager → buscar <code>esp32 by Espressif Systems</code><br>
+        Tools → Board → esp32 → <code>ESP32 Dev Module</code><br>
+        Tools → PSRAM → <code>Disabled</code></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 9. CICLO 1 — LED INTERNO ───────────────────────────────────── -->
+<section>
+  <div style="display:flex!important;flex-direction:column;height:100%;background:var(--bg);padding:2rem 2rem 1.5rem;box-sizing:border-box;">
+    <div style="flex-shrink:0;font-family:Menlo,monospace;margin-bottom:1rem;">
+      <div style="font-size:.55em;color:#999;letter-spacing:.12em;margin-bottom:.6rem;">// ciclo 1</div>
+      <div style="font-size:1.4em;color:#111;font-weight:normal;">LED interno</div>
+      <div style="font-size:.75em;color:#444;margin-top:.6rem;">→ Arduino IDE</div>
+    </div>
+    <div id="led-scroll" style="flex:1;min-height:0;overflow-y:scroll;">
+      <img src="midia/ESP32-DevKit-V1-Pinout-Diagram.png" style="max-width:100%;height:auto;display:block;align-self:flex-start;">
+    </div>
+  </div>
+</section>
+
+<!-- ── 10. CICLO 2 — BOTÃO + LED ──────────────────────────────────── -->
+<section>
+  <div style="display:flex!important;flex-direction:column;height:100%;background:var(--bg);padding:2rem 2rem 1.5rem;box-sizing:border-box;">
+    <div style="flex-shrink:0;font-family:Menlo,monospace;margin-bottom:1rem;">
+      <div style="font-size:.55em;color:#999;letter-spacing:.12em;margin-bottom:.6rem;">// ciclo 2</div>
+      <div style="font-size:1.4em;color:#111;font-weight:normal;">Botão + LED</div>
+    </div>
+    <div id="botao-scroll" style="flex:1;min-height:0;overflow-y:scroll;display:flex;flex-direction:column;gap:1.5rem;padding-right:.5rem;">
+      <img src="midia/1-botao-esp32.png" style="max-width:100%;height:auto;display:block;align-self:flex-start;">
+      <img src="midia/Por-baixo-da-protoboard.webp" style="max-width:100%;height:auto;display:block;align-self:flex-start;">
+      <img src="midia/ESP32-DevKit-V1-Pinout-Diagram.png" style="max-width:100%;height:auto;display:block;align-self:flex-start;">
+      <div style="font-size:.72em;color:#444;line-height:1.9;border-left:2px solid #ddd;padding:.8rem 0 .8rem 1.2rem;">
+        <span style="font-size:.65em;color:#999;display:block;margin-bottom:.3rem;letter-spacing:.1em;">// INPUT_PULLUP</span>
+        A placa puxa o pino para HIGH por padrão — apertar o botão manda LOW.
+      </div>
+      <div style="font-size:.72em;color:#444;line-height:1.9;border-left:2px solid #ddd;padding:.8rem 0 .8rem 1.2rem;">
+        <span style="font-size:.65em;color:#999;display:block;margin-bottom:.3rem;letter-spacing:.1em;">// desafio</span>
+        Enquanto segura o botão: LED pisca rápido. Ao soltar: apaga.<br>
+        Dica: <code>delay()</code> dentro do <code>if</code>.
+      </div>
+      <div style="font-size:.72em;color:#444;line-height:1.9;border-left:2px solid #ddd;padding:.8rem 0 .8rem 1.2rem;">
+        <span style="font-size:.65em;color:#999;display:block;margin-bottom:.3rem;letter-spacing:.1em;">// bônus</span>
+        Inverter a lógica — LED sempre aceso, apaga ao apertar.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 11. CICLO 3 — SENSOR + PLOTTER ────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// ciclo 3</div>
+    <h2>Sensor + Plotter</h2>
+    <div class="scroll-inner" id="sensor-scroll">
+      <img src="midia/2-imu-botao-esp32.png" style="max-width:100%;height:auto;display:block;align-self:flex-start;margin-bottom:.5rem;">
+      <img src="midia/ESP32-DevKit-V1-Pinout-Diagram.png" style="max-width:100%;height:auto;display:block;align-self:flex-start;margin-bottom:.5rem;">
+      <div class="step">
+        <span class="num">// instalar biblioteca</span>
+        <p>Tools → Manage Libraries → buscar <code>Adafruit MPU6050</code> → instalar com dependências.</p>
+      </div>
+      <div class="step">
+        <span class="num">// exemplo pronto</span>
+        <p>File → Examples → Adafruit MPU6050 → <code>plotter</code><br>
+        Já imprime AccelX, AccelY, AccelZ, GyroX, GyroY, GyroZ no Serial Plotter.</p>
+      </div>
+      <div class="step">
+        <span class="num">// desafio</span>
+        <p>Mover o corpo de formas diferentes e identificar qual linha corresponde a qual gesto.<br>
+        AccelX/Y/Z = aceleração linear · GyroX/Y/Z = velocidade de rotação</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 12. CICLO 4 — SENSOR + OSC ─────────────────────────────────── -->
+<section>
+  <div class="topic-slide">
+    <div class="label">// ciclo 4</div>
+    <h2>Sensor + OSC</h2>
+  </div>
+</section>
+
+
+
+</div><!-- .slides -->
+</div><!-- .reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  controls: true,
+  progress: true,
+  center: false,
+  transition: 'none',
+  width: '100%',
+  height: '100%',
+  margin: 0,
+  minScale: 1,
+  maxScale: 1,
+});
+
+// Scroll habilitado em todos os containers roláveis
+var scrollIds = [
+  'videos-scroll','esp32-scroll','mems-scroll','accel-scroll','gyro-scroll',
+  'vestibular-scroll','ahrs-scroll','corpo-scroll','install-scroll',
+  'led-scroll','botao-scroll','sensor-scroll','osc-scroll','pot-scroll'
+];
+scrollIds.forEach(function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  function blockReveal(e) {
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+  }
+  el.addEventListener('wheel',      blockReveal, { passive: false, capture: false });
+  el.addEventListener('wheel',      blockReveal, { passive: false, capture: true  });
+  el.addEventListener('touchmove',  blockReveal, { passive: false, capture: false });
+  el.addEventListener('touchmove',  blockReveal, { passive: false, capture: true  });
+});
+</script>
+</body>
+</html>

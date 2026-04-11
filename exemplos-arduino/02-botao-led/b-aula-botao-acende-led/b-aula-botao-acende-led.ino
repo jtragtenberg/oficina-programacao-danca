@@ -1,4 +1,4 @@
-int pinoBotao = 13;
+int pinoBotao = 5;
 int pinoLED   = 2;
 
 void setup() {

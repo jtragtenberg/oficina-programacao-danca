@@ -4,7 +4,7 @@
 // Enquanto segurar o botão: LED pisca rápido.
 // Ao soltar: LED apaga.
 
-int pinoBotao = 13;
+int pinoBotao = 5;
 int pinoLED = 2;
 
 void setup() {

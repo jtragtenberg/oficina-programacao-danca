@@ -10,7 +10,7 @@ Adafruit_MPU6050 mpu;
 void setup() {
   Serial.begin(115200);
 
-  Wire.begin(26, 27);  // SDA=26, SCL=27
+  Wire.begin(21, 22);  // SDA=26, SCL=27
 
   if (!mpu.begin()) {
     Serial.println("Sensor MPU6050 não encontrado!");

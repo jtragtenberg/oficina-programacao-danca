@@ -4,8 +4,8 @@
 // Lógica invertida: LED fica sempre aceso.
 // Ao apertar o botão, o LED apaga.
 
-int pinoBotao = 2;
-int pinoLED = 4;
+int pinoBotao = 5;
+int pinoLED = 2;
 
 void setup() {
   pinMode(pinoBotao, INPUT_PULLUP);

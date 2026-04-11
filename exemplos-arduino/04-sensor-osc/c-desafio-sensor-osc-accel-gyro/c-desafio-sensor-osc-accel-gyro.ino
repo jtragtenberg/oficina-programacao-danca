@@ -76,7 +76,7 @@ void setup() {
 
   udp.begin(localPort);
 
-  Wire.begin(26, 27);  // SDA=26, SCL=27
+  Wire.begin(21, 22);  // SDA=21, SCL=22
 
   if (!mpu.begin()) {
     Serial.println("Sensor MPU6050 não encontrado!");

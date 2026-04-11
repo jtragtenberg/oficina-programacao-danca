@@ -49,7 +49,7 @@ void setup() {
 
   udp.begin(localPort);
 
-  Wire.begin(26, 27);  // SDA=26, SCL=27
+  Wire.begin(21, 22);  // SDA=21, SCL=22
   mpu.begin();
   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
