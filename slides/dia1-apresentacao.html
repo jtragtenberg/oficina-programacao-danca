@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Apresentação</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<style>
+  :root {
+    --bg:     #ffffff;
+    --fg:     #111111;
+    --dim:    #999999;
+    --border: #dddddd;
+  }
+
+  .reveal-viewport { background: var(--bg); }
+  .reveal { font-family: 'Menlo', 'Courier New', monospace; color: var(--fg); }
+
+  .reveal .slides section { padding: 0; }
+  .reveal .slides section[style*="height:100%"] { top: 0 !important; }
+
+  .reveal h1 { font-size: 2.4em; font-weight: normal; color: var(--fg); letter-spacing: -.01em; text-align: left; }
+  .reveal h2 { font-size: 1.3em; font-weight: normal; color: var(--fg); }
+
+  .cursor { display: inline-block; animation: blink 1.1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── título ── */
+  .title-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+    padding: 3.5rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+  }
+  .title-slide .pre { font-size: .6em; color: var(--dim); margin-bottom: 1.2em; }
+  .title-slide h1   { margin: 0 0 .3em; line-height: 1.05; }
+  .title-slide .sub { font-size: .65em; color: var(--dim); margin-top: 1.8em; line-height: 2; }
+
+  /* ── foto fundo cheio ── */
+  .fullbg {
+    position: relative;
+    width: 100%; height: 100%;
+    display: flex !important;
+    align-items: flex-end;
+    padding: 2.5rem !important;
+    box-sizing: border-box;
+  }
+  .fullbg img.bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(.9) saturate(.6);
+    z-index: 0;
+  }
+  .fullbg .caption {
+    position: relative; z-index: 1;
+    text-align: left; max-width: 55%;
+    background: rgba(255,255,255,.82);
+    padding: 1rem 1.4rem;
+  }
+  .fullbg .caption h2 { margin: 0 0 .3em; font-size: 1.3em; color: var(--fg); }
+  .fullbg .caption p  { margin: 0; font-size: .65em; color: #444; line-height: 1.7; }
+
+  /* ── vídeo ── */
+  .video-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: .8rem;
+    padding: 1.5rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+  }
+  .label {
+    font-size: .55em !important;
+    color: var(--dim) !important;
+    letter-spacing: .12em;
+    align-self: flex-start;
+    font-family: 'Menlo', monospace;
+  }
+  .video-slide iframe {
+    width: 100%; max-width: 920px;
+    aspect-ratio: 16/9;
+    border: none;
+  }
+
+  /* ── iframe do mustic ── */
+  .iframe-slide {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%; height: 100%;
+    padding: 0 !important;
+  }
+  .iframe-slide .bar {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: .4rem 1rem;
+    font-size: .5em;
+    color: var(--dim);
+    flex-shrink: 0;
+  }
+  .iframe-slide iframe {
+    flex: 1;
+    border: none;
+    width: 100%;
+    min-height: 0; /* necessário para flex + iframe crescer */
+  }
+
+  /* ── duas fotos ── */
+  .two-photos {
+    display: flex !important;
+    height: 100%;
+    padding: 0 !important;
+    gap: 2px;
+    background: var(--border);
+  }
+  .two-photos .half { flex: 1; position: relative; overflow: hidden; }
+  .two-photos .half img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(.7);
+    display: block;
+  }
+  .two-photos .half .cap {
+    position: absolute;
+    bottom: 1rem; left: 1rem;
+    font-size: .55em;
+    color: #fff;
+    background: rgba(0,0,0,.45);
+    padding: .2em .6em;
+  }
+
+  /* ── link externo ── */
+  .link-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 2rem;
+    background: var(--bg);
+  }
+  .link-slide .note { font-size: .6em; color: var(--dim); }
+  .btn-link {
+    display: inline-block;
+    padding: .7em 2.2em;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: .8em;
+    letter-spacing: .08em;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+  }
+  .btn-link:hover { background: var(--fg); color: var(--bg); }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ── 1. TÍTULO ─────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// dia 1 — apresentação</div>
+    <h1>Introdução à<br>Programação<br>Através da<br>Dança<span class="cursor">_</span></h1>
+    <div class="sub">
+      João Tragtenberg &amp; Iara Izidoro
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. PESQUISA — Google Scholar ───────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="label">// pesquisa acadêmica</div>
+    <h1 style="font-size:1.6em;margin-top:1rem;">João Tragtenberg<br>Google Scholar</h1>
+    <a href="https://scholar.google.com.br/citations?hl=pt-BR&user=nw9Bj84AAAAJ"
+       target="_blank" class="btn-link" style="margin-top:2rem;">
+      ↗ abrir perfil
+    </a>
+  </div>
+</section>
+
+<!-- ── 3. NIME LATAM ──────────────────────────────────────────── -->
+<section style="padding:0 !important; width:100%; height:100%;">
+  <div style="position:absolute;top:0;left:0;right:0;z-index:10;padding:.5rem 1rem;background:rgba(255,255,255,.88);font-family:Menlo,monospace;font-size:.55em;color:#999;letter-spacing:.12em;pointer-events:none;">// NIME LATAM</div>
+  <iframe src="https://teo523.github.io/nime_latam_map/"
+          style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>
+</section>
+
+<!-- ── 4. MUSTIC — iframe do site ─────────────────────────────── -->
+<section style="padding:0 !important; width:100%; height:100%;">
+  <div style="position:absolute;top:0;left:0;right:0;z-index:10;padding:.5rem 1rem;background:rgba(255,255,255,.88);font-family:Menlo,monospace;font-size:.55em;color:#999;letter-spacing:.12em;pointer-events:none;">// mustic</div>
+  <iframe src="https://mustic.cin.ufpe.br/" loading="lazy"
+          style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>
+</section>
+
+<!-- ── 3. BATEBIT — logo ───────────────────────────────────────── -->
+<section>
+  <div class="title-slide" style="align-items:center;justify-content:center;">
+    <div class="label" style="position:absolute;top:1rem;left:1.5rem;">// batebit</div>
+    <img src="midia/LogoBatebit-P.png" alt="Logo Batebit" style="width:280px;">
+  </div>
+</section>
+
+<!-- ── 4. BONGARBIT ────────────────────────────────────────────── -->
+<section style="padding:0 !important; overflow:hidden;">
+  <div id="bongarbit-scroll" style="height:100vh;overflow-y:scroll;padding:1.5rem 2rem;box-sizing:border-box;display:flex;flex-direction:column;gap:1.2rem;">
+
+    <div class="label">// bongarbit</div>
+
+    <img src="midia/foto bongarbit 2.jpg" alt="Bongarbit"
+         style="width:100%;height:auto;object-fit:contain;filter:saturate(.7);display:block;">
+
+    <div>
+      <div class="label" style="margin-bottom:.4rem;">// Agbau</div>
+      <iframe width="100%" style="aspect-ratio:16/9;border:none;display:block;"
+              src="https://www.youtube.com/embed/48ikO1KuL8A"
+              title="Agbau" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+    </div>
+
+    <div>
+      <div class="label" style="margin-bottom:.4rem;">// Botões Falantes</div>
+      <iframe width="100%" style="aspect-ratio:16/9;border:none;display:block;"
+              src="https://www.youtube.com/embed/faSNcZN78WA"
+              title="Botões Falantes" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+    </div>
+
+    <div>
+      <div class="label" style="margin-bottom:.4rem;">// Engome Adubado</div>
+      <iframe width="100%" style="aspect-ratio:16/9;border:none;display:block;"
+              src="https://www.youtube.com/embed/LYKFdfw0pKE"
+              title="Engome Adubado" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── 5. VÍDEO: Helder Tumtá ─────────────────────────────────── -->
+<section>
+  <div class="video-slide">
+    <div class="label">// Helder Vasconcelos — Tumtá e Pisada</div>
+    <iframe src="https://www.youtube.com/embed/m4q6iD513pY?si=P5yZpz-lxjmU-DqN"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- ── 6. VÍDEO: Piso Interativo ─────────────────────────────── -->
+<section>
+  <div class="video-slide">
+    <div class="label">// Piso Interativo — espaço que responde</div>
+    <iframe src="https://www.youtube.com/embed/1CIzkmmBoWI"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- ── 7. VÍDEO: Agora ────────────────────────────────────────── -->
+<section>
+  <div class="video-slide">
+    <div class="label">// O Agora Não Confabula com a Espera — Iara Izidoro</div>
+    <iframe src="https://www.youtube.com/embed/56HMGImKpCQ"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- ── 8. VÍDEO: Gira ─────────────────────────────────────────── -->
+<section>
+  <div class="video-slide">
+    <div class="label">// Gira</div>
+    <iframe src="https://www.youtube.com/embed/gAzkibwCDwM"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- ── 9. VÍDEO: Con---tact ──────────────────────────────────── -->
+<section>
+  <div class="video-slide">
+    <div class="label">// Con---tact</div>
+    <iframe src="https://www.youtube.com/embed/XeI48dst3q8"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- ── 10. GIROMIN — residência com Orun Santana ─────────────── -->
+<section>
+  <div class="video-slide">
+    <div class="label">// Giromin — residência com Orun Santana</div>
+    <video controls style="width:90%;max-width:920px;aspect-ratio:16/9;background:#000;">
+      <source src="midia/residency_short_clip_comprimido.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<!-- ── 11. VÍDEO: Abertura do Carnaval ───────────────────────── -->
+<section style="padding:0 !important; overflow:hidden;">
+  <div id="carnaval-scroll" style="height:100vh;overflow-y:scroll;padding:1.5rem 2rem;box-sizing:border-box;display:flex;flex-direction:column;gap:1.2rem;">
+    <div class="label">// Abertura do Carnaval</div>
+    <div>
+      <div class="label" style="margin-bottom:.4rem;">// Porto Mídia</div>
+      <iframe width="100%" style="aspect-ratio:16/9;border:none;display:block;"
+              src="https://www.youtube.com/embed/FDaQaRtYl2I?start=45"
+              title="Abertura Porto Mídia" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom:.4rem;">// Palco Marco Zero</div>
+      <iframe width="100%" style="aspect-ratio:16/9;border:none;display:block;"
+              src="https://www.youtube.com/embed/NjUTiJNfvlg?start=5986"
+              title="Abertura Palco Marco Zero" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ── 12. FIM ────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// agora</div>
+    <h1>Bora<br>pro<br>corpo<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+</div><!-- slides -->
+</div><!-- reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  transition: 'fade',
+  transitionSpeed: 'slow',
+  backgroundTransition: 'fade',
+  controls: false,
+  progress: false,
+  slideNumber: false,
+  // pausa vídeos ao sair do slide
+  autoPlayMedia: false,
+});
+
+// permitir scroll no bongarbit sem navegar entre slides
+['bongarbit-scroll', 'carnaval-scroll'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('wheel', e => e.stopPropagation(), { passive: true });
+  el.addEventListener('touchmove', e => e.stopPropagation(), { passive: true });
+});
+
+// parar iframes ao trocar de slide
+Reveal.on('slidechanged', event => {
+  const prev = event.previousSlide;
+  if (prev) {
+    prev.querySelectorAll('iframe').forEach(f => {
+      const src = f.src;
+      f.src = '';
+      f.src = src;
+    });
+  }
+});
+</script>
+</body>
+</html>

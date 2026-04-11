@@ -1,0 +1,7 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+*.pd_darwin
+*.pd_darwin.o
+__pycache__/
+*.pyc
