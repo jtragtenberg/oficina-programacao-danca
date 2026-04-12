@@ -6,8 +6,14 @@
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
 
+#include <Bounce2.h>
+#include <EEPROM.h>
+
 const char* ssid     = "NOME_DA_REDE";
 const char* password = "SENHA_DA_REDE";
+
+const int ID        = 1;   // ID do Giromin
+const int BOTAO_PIN = 5;
 
 IPAddress destIP(192, 168, 1, 255);
 const int destPort  = 9999;
@@ -15,8 +21,54 @@ const int localPort = 8888;
 
 WiFiUDP udp;
 Adafruit_MPU6050 mpu;
+Bounce botao;
 
-float normalizeAccel(Adafruit_MPU6050 &mpu, float value) {
+// ── Offsets de calibração (salvos na EEPROM) ──────────────────────────────
+struct Offsets {
+  float ax, ay, az;
+  float gx, gy, gz;
+};
+Offsets offsets = {0, 0, 0, 0, 0, 0};
+
+#define EEPROM_SIZE    sizeof(Offsets)
+#define EEPROM_ADDR    0
+#define CALIB_SAMPLES  200
+
+void salvarOffsets() {
+  EEPROM.put(EEPROM_ADDR, offsets);
+  EEPROM.commit();
+}
+
+void carregarOffsets() {
+  EEPROM.get(EEPROM_ADDR, offsets);
+}
+
+void calibrar() {
+  Serial.println("Calibrando — mantenha o sensor parado...");
+  double sax=0, say=0, saz=0, sgx=0, sgy=0, sgz=0;
+  for (int i = 0; i < CALIB_SAMPLES; i++) {
+    sensors_event_t a, g, temp;
+    mpu.getEvent(&a, &g, &temp);
+    sax += a.acceleration.x;
+    say += a.acceleration.y;
+    saz += a.acceleration.z;
+    sgx += g.gyro.x;
+    sgy += g.gyro.y;
+    sgz += g.gyro.z;
+    delay(5);
+  }
+  offsets.ax = sax / CALIB_SAMPLES;
+  offsets.ay = say / CALIB_SAMPLES;
+  offsets.az = saz / CALIB_SAMPLES;
+  offsets.gx = sgx / CALIB_SAMPLES;
+  offsets.gy = sgy / CALIB_SAMPLES;
+  offsets.gz = sgz / CALIB_SAMPLES;
+  salvarOffsets();
+  Serial.println("Calibração salva.");
+}
+
+// ── Normalização ──────────────────────────────────────────────────────────
+float normalizeAccel(float value) {
   float maxG;
   switch (mpu.getAccelerometerRange()) {
     case MPU6050_RANGE_2_G:  maxG =  2.0; break;
@@ -28,7 +80,7 @@ float normalizeAccel(Adafruit_MPU6050 &mpu, float value) {
   return constrain(value / (maxG * 9.81), -1.0, 1.0);
 }
 
-float normalizeGyro(Adafruit_MPU6050 &mpu, float value) {
+float normalizeGyro(float value) {
   float maxDeg;
   switch (mpu.getGyroRange()) {
     case MPU6050_RANGE_250_DEG:  maxDeg =  250.0; break;
@@ -40,8 +92,20 @@ float normalizeGyro(Adafruit_MPU6050 &mpu, float value) {
   return constrain(value / (maxDeg * DEG_TO_RAD), -1.0, 1.0);
 }
 
+// ── Setup ─────────────────────────────────────────────────────────────────
 void setup() {
   Serial.begin(115200);
+
+  EEPROM.begin(EEPROM_SIZE);
+  carregarOffsets();
+
+  botao.attach(BOTAO_PIN, INPUT_PULLUP);
+  botao.interval(10);
+
+  // Se botão estiver apertado ao ligar → calibrar
+  if (digitalRead(BOTAO_PIN) == LOW) {
+    calibrar();
+  }
 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) { delay(500); Serial.print("."); }
@@ -49,31 +113,52 @@ void setup() {
 
   udp.begin(localPort);
 
-  Wire.begin(21, 22);  // SDA=21, SCL=22
+  Wire.begin(21, 22);
   mpu.begin();
   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
   mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
 }
 
+// ── Loop ──────────────────────────────────────────────────────────────────
 void loop() {
+  botao.update();
+
+  // Botão: envia OSC /giromin/ID/b1 quando pressionado
+  if (botao.fell()) {
+    String addr = "/giromin/" + String(ID) + "/b1";
+    OSCMessage msg(addr.c_str());
+    msg.add(1);
+    udp.beginPacket(destIP, destPort);
+    msg.send(udp);
+    udp.endPacket();
+    msg.empty();
+  }
+
+  // Sensor com offset de calibração aplicado
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
-  OSCMessage msg("/giromin/accel");
-  msg.add(normalizeAccel(mpu, a.acceleration.x));
-  msg.add(normalizeAccel(mpu, a.acceleration.y));
-  msg.add(normalizeAccel(mpu, a.acceleration.z));
+  float ax = a.acceleration.x - offsets.ax;
+  float ay = a.acceleration.y - offsets.ay;
+  float az = a.acceleration.z - offsets.az;
+  float gx = g.gyro.x        - offsets.gx;
+  float gy = g.gyro.y        - offsets.gy;
+  float gz = g.gyro.z        - offsets.gz;
+
+  OSCMessage msgAccel("/giromin/accel");
+  msgAccel.add(normalizeAccel(ax));
+  msgAccel.add(normalizeAccel(ay));
+  msgAccel.add(normalizeAccel(az));
   udp.beginPacket(destIP, destPort);
-  msg.send(udp);
+  msgAccel.send(udp);
   udp.endPacket();
-  msg.empty();
+  msgAccel.empty();
 
   delay(20);
 }
 
 // ─────────────────────────────────────────────
 // DESAFIO: adicionar também o giroscópio.
-// Enviar em "/giromin/gyro" os valores
-// g.gyro.x, g.gyro.y, g.gyro.z
+// Enviar em "/giromin/gyro" os valores gx, gy, gz
 // ─────────────────────────────────────────────
