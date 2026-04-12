@@ -1,3 +1,22 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// DEPENDÊNCIAS — instalar via Arduino IDE: Tools → Manage Libraries...
+//
+// 1. OSC  (por Adrian Freed)
+//    buscar: "OSC"  autor: Adrian Freed
+//
+// 2. Adafruit MPU6050  (por Adafruit)
+//    buscar: "Adafruit MPU6050"
+//    instala automaticamente: Adafruit Unified Sensor e Adafruit BusIO
+//
+// 3. Bounce2  (por Thomas O Fredericks)
+//    buscar: "Bounce2"
+//
+// WiFi, WiFiUdp, Wire e EEPROM já vêm com o core ESP32 —
+// não precisam ser instalados separadamente.
+//
+// PLACA: Tools → Board → esp32 → ESP32 Dev Module
+// ─────────────────────────────────────────────────────────────────────────────
+
 #include <WiFi.h>
 #include <WiFiUdp.h>
 #include <OSCMessage.h>
