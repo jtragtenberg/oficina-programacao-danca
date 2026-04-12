@@ -147,7 +147,7 @@ void loop() {
   if (botao.fell()) {
     String addr = "/giromin/" + String(ID) + "/b1";
     OSCMessage msg(addr.c_str());
-    msg.add(1);
+    msg.add((int32_t)1);
     udp.beginPacket(destIP, destPort);
     msg.send(udp);
     udp.endPacket();
