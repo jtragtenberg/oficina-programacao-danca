@@ -1,0 +1,8 @@
+#N canvas 400 200 500 280 12;
+#X text 15 10 01-som-ligado — a-base-oscilador;
+#X text 15 35 Conecte os objetos para fazer um som sair.;
+#X obj 15 90 hsl 200 15 50 1000 0 0 empty empty frequencia 0 -8 0 10 #ffffff #000000 #000000 440 1;
+#X obj 15 120 hsl 200 15 0 1 0 0 empty empty volume 0 -8 0 10 #ffffff #000000 #000000 0 1;
+#X obj 15 155 osc~;
+#X obj 15 190 *~;
+#X obj 15 230 output~;

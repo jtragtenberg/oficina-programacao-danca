@@ -1,0 +1,12 @@
+#N canvas 400 200 560 300 12;
+#X text 15 10 02-ruido-filtro — b-aula-ruido-filtro;
+#X obj 15 100 noise~;
+#X obj 15 180 *~ 0.3;
+#X obj 15 220 output~;
+#X obj 15 140 else/lowpass~ 1000;
+#X text 15 35 Ruido branco filtrado com [lowpass~] (passa-baixa).;
+#X text 15 303 DESAFIO: mudar o numero do lowpass~. \; Colocar um slider [hsl] e configurar valores para serem de 10 a 1000 na primeira entrada (frequencia de corte) e outro slider [hsl] de 0.1 a 30 no segundo inlet (ressonância Q) \;;
+#X connect 1 0 4 0;
+#X connect 2 0 3 0;
+#X connect 2 0 3 1;
+#X connect 4 0 2 0;

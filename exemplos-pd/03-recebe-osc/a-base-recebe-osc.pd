@@ -1,0 +1,16 @@
+#N canvas 400 200 620 300 12;
+#X text 15 10 03-recebe-osc — a-base-recebe-osc;
+#X text 15 35 Recebe OSC na porta 9999 Ver os dados no console.;
+#X obj 15 90 else/osc.receive 9999;
+#X obj 15 160 unpack f f f;
+#X obj 15 195 print x;
+#X obj 175 195 print y;
+#X obj 335 195 print z;
+#X obj 15 125 else/osc.route /giromin/10/a;
+#X text 199 89 Mudar valor da porta de acordo com o código do Arduino;
+#X text 199 124 Mudar mensagem OSC de acordo com o código do Arduino;
+#X connect 2 0 7 0;
+#X connect 3 0 4 0;
+#X connect 3 1 5 0;
+#X connect 3 2 6 0;
+#X connect 7 0 3 0;

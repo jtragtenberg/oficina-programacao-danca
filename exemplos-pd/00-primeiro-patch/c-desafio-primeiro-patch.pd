@@ -1,0 +1,9 @@
+#N canvas 400 200 520 280 12;
+#X text 15 10 00-primeiro-patch — c-desafio-primeiro-patch;
+#X text 15 35 [*~ 0.5] controla o volume. 0 = silencio 1 = volume cheio., f 58;
+#X obj 15 180 dac~;
+#X obj 15 140 *~ 0.9;
+#X obj 15 100 osc~ 400;
+#X connect 3 0 2 0;
+#X connect 3 0 2 1;
+#X connect 4 0 3 0;

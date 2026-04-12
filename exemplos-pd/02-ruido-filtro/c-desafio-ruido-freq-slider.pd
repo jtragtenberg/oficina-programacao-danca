@@ -1,0 +1,15 @@
+#N canvas 400 200 560 300 12;
+#X text 15 10 02-ruido-filtro — c-desafio-ruido-freq-slider;
+#X text 15 35 Sliders controlam a frequencia de corte e a ressonancia.;
+#X obj 15 70 hsl 200 15 10 1000 0 0 empty empty freq-corte 0 -8 0 10 #ffffff #000000 #000000 500 1;
+#X obj 15 100 hsl 200 15 0.1 30 0 0 empty empty ressonancia-Q 0 -8 0 10 #ffffff #000000 #000000 1 1;
+#X obj 15 135 noise~;
+#X obj 15 170 else/lowpass~;
+#X obj 15 205 *~ 0.3;
+#X obj 15 245 output~;
+#X connect 2 0 5 0;
+#X connect 3 0 5 1;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 6 0 7 0;
+#X connect 6 0 7 1;

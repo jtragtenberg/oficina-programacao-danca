@@ -1,0 +1,6 @@
+#N canvas 400 200 520 280 12;
+#X text 15 10 01-som-ligado — a-base-oscilador;
+#X text 15 35 1. Clique no icone [+] (add object) na barra de ferramentas., f 60;
+#X text 15 55 2. Digite: osc~ 200 — pressione Enter., f 60;
+#X text 15 75 3. Clique no [+] novamente. Digite: dac~ — pressione Enter., f 60;
+#X text 15 95 4. Conecte a saida do [osc~ 200] na entrada do [dac~]., f 60;

@@ -1,0 +1,9 @@
+#N canvas 400 200 520 300 12;
+#X text 15 10 00-primeiro-patch — b-aula-primeiro-patch;
+#X text 15 35 [osc~ 200] gera um som. [dac~] manda para os alto-falantes., f 58;
+#X obj 15 100 osc~ 200;
+#X obj 15 150 dac~;
+#X text 15 200 DESAFIO: coloque um objeto [*~ 0.5] entre o osc~ e o dac~., f 58;
+#X text 15 220 Ligue tudo. Varie o numero e escute a diferenca., f 58;
+#X connect 2 0 3 0;
+#X connect 2 0 3 1;

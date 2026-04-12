@@ -1,0 +1,6 @@
+#N canvas 400 200 520 260 12;
+#X text 15 10 02-ruido-filtro — a-base-ruido;
+#X text 15 35 Conecte o ruido branco na saida de audio.;
+#X obj 15 100 noise~;
+#X obj 15 145 *~ 0.1;
+#X obj 15 190 output~;

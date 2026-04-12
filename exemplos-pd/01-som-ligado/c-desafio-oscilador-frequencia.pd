@@ -1,0 +1,13 @@
+#N canvas 400 200 500 300 12;
+#X text 15 10 01-som-ligado — c-desafio-oscilador-frequencia;
+#X text 15 35 Frequencia e volume controlados por sliders.;
+#X obj 15 90 hsl 200 15 50 1000 0 0 empty empty frequencia 0 -8 0 10 #ffffff #000000 #000000 440 1;
+#X obj 15 120 hsl 200 15 0 1 0 0 empty empty volume 0 -8 0 10 #ffffff #000000 #000000 0.5 1;
+#X obj 15 155 osc~;
+#X obj 15 190 *~;
+#X obj 15 230 output~;
+#X connect 2 0 4 0;
+#X connect 3 0 5 1;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X connect 5 0 6 1;
