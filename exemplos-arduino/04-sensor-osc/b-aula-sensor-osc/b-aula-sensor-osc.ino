@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // DEPENDÊNCIAS — instalar via Arduino IDE: Tools → Manage Libraries...
 //
-// 1. OSC  (por Adrian Freed)
-//    buscar: "OSC"  autor: Adrian Freed
+// 1. OSC  (por CNMAT — Yotam Mann e Adrian Freed)
+//    buscar: "OSC"  autor: CNMAT
 //
 // 2. Adafruit MPU6050  (por Adafruit)
 //    buscar: "Adafruit MPU6050"
