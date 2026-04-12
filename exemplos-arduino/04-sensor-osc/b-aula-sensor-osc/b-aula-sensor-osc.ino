@@ -82,6 +82,7 @@ void calibrar() {
   offsets.gx = sgx / CALIB_SAMPLES;
   offsets.gy = sgy / CALIB_SAMPLES;
   offsets.gz = sgz / CALIB_SAMPLES;
+  offsets.az += 9.81; 
   salvarOffsets();
   Serial.println("Calibração salva.");
 }
@@ -121,6 +122,12 @@ void setup() {
   botao.attach(BOTAO_PIN, INPUT_PULLUP);
   botao.interval(10);
 
+  Wire.begin(21, 22);
+  mpu.begin();
+  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+  mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+
   // Se botão estiver apertado ao ligar → calibrar
   if (digitalRead(BOTAO_PIN) == LOW) {
     calibrar();
@@ -131,12 +138,6 @@ void setup() {
   Serial.println("\nIP: " + WiFi.localIP().toString());
 
   udp.begin(localPort);
-
-  Wire.begin(21, 22);
-  mpu.begin();
-  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
-  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-  mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
 }
 
 // ── Loop ──────────────────────────────────────────────────────────────────
