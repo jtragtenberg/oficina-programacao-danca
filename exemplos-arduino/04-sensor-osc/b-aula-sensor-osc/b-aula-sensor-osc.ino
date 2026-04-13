@@ -144,11 +144,11 @@ void setup() {
 void loop() {
   botao.update();
 
-  // Botão: envia OSC /giromin/ID/b1 quando pressionado
-  if (botao.fell()) {
+  // Botão: envia OSC /giromin/ID/b1 — 1 ao apertar, 0 ao soltar
+  if (botao.fell() || botao.rose()) {
     String addr = "/giromin/" + String(ID) + "/b1";
     OSCMessage msg(addr.c_str());
-    msg.add((int32_t)1);
+    msg.add(botao.fell() ? (int32_t)1 : (int32_t)0);
     udp.beginPacket(destIP, destPort);
     msg.send(udp);
     udp.endPacket();
