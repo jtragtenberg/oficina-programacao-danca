@@ -16,6 +16,13 @@
 //
 // PLACA: Tools → Board → esp32 → ESP32 Dev Module
 // ─────────────────────────────────────────────────────────────────────────────
+// Envia acelerômetro via OSC por UDP.
+// Endereços OSC:
+//   /giromin/ID/a   →  x, y, z  normalizado (-1 a 1)
+//   /giromin/ID/b1  →  1 ao apertar, 0 ao soltar
+//
+// CALIBRAÇÃO: segure o botão ao ligar para calibrar e salvar na EEPROM.
+// ─────────────────────────────────────────────────────────────────────────────
 
 #include <WiFi.h>
 #include <WiFiUdp.h>
@@ -28,13 +35,13 @@
 #include <Bounce2.h>
 #include <EEPROM.h>
 
-const char* ssid     = "NOME_DA_REDE";
-const char* password = "SENHA_DA_REDE";
+const char* ssid     = "NOME_DA_REDE";   // ← alterar
+const char* password = "SENHA_DA_REDE";  // ← alterar
 
-const int ID        = 1;   // ID do Giromin
+const int ID        = 1;                 // ← ID do Giromin
 const int BOTAO_PIN = 5;
 
-IPAddress destIP(192, 168, 1, 255);
+IPAddress destIP(192, 168, 1, 255);      // ← IP do computador (ou broadcast)
 const int destPort  = 9999;
 const int localPort = 8888;
 
@@ -64,6 +71,7 @@ void carregarOffsets() {
 
 void calibrar() {
   Serial.println("Calibrando — mantenha o sensor parado...");
+  delay(3000);
   double sax=0, say=0, saz=0, sgx=0, sgy=0, sgz=0;
   for (int i = 0; i < CALIB_SAMPLES; i++) {
     sensors_event_t a, g, temp;
@@ -82,7 +90,7 @@ void calibrar() {
   offsets.gx = sgx / CALIB_SAMPLES;
   offsets.gy = sgy / CALIB_SAMPLES;
   offsets.gz = sgz / CALIB_SAMPLES;
-  offsets.az += 9.81; 
+  offsets.az += 9.81;
   salvarOffsets();
   Serial.println("Calibração salva.");
 }
@@ -162,11 +170,9 @@ void loop() {
   float ax = a.acceleration.x - offsets.ax;
   float ay = a.acceleration.y - offsets.ay;
   float az = a.acceleration.z - offsets.az;
-  float gx = g.gyro.x        - offsets.gx;
-  float gy = g.gyro.y        - offsets.gy;
-  float gz = g.gyro.z        - offsets.gz;
 
-  OSCMessage msgAccel("/giromin/accel");
+  String accel_addr = "/giromin/" + String(ID) + "/a";
+  OSCMessage msgAccel(accel_addr.c_str());
   msgAccel.add(normalizeAccel(ax));
   msgAccel.add(normalizeAccel(ay));
   msgAccel.add(normalizeAccel(az));
@@ -175,10 +181,11 @@ void loop() {
   udp.endPacket();
   msgAccel.empty();
 
-  delay(20);
+  delay(10);
 }
 
 // ─────────────────────────────────────────────
-// DESAFIO: adicionar também o giroscópio.
-// Enviar em "/giromin/gyro" os valores gx, gy, gz
+// DESAFIO: adicionar o giroscópio.
+// Enviar em "/giromin/ID/g" os valores gx, gy, gz
+// (subtrair offsets.gx/gy/gz e normalizar com normalizeGyro)
 // ─────────────────────────────────────────────

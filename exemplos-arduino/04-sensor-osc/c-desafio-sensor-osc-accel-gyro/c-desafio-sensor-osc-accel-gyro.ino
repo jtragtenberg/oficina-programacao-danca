@@ -36,13 +36,13 @@
 #include <Bounce2.h>
 #include <EEPROM.h>
 
-const char* ssid     = "NOME_DA_REDE";
-const char* password = "SENHA_DA_REDE";
+const char* ssid     = "giromin2";
+const char* password = "dervishmaria";
 
 const int ID        = 1;
 const int BOTAO_PIN = 5;
 
-IPAddress destIP(192, 168, 1, 255);
+IPAddress destIP(192, 168, 1, 100);
 const int destPort  = 9999;
 const int localPort = 8888;
 
@@ -72,7 +72,7 @@ void carregarOffsets() {
 
 void calibrar() {
   Serial.println("Calibrando — mantenha o sensor parado...");
-  delay(1000); 
+  delay(3000); 
   double sax=0, say=0, saz=0, sgx=0, sgy=0, sgz=0;
   for (int i = 0; i < CALIB_SAMPLES; i++) {
     sensors_event_t a, g, temp;
@@ -91,7 +91,7 @@ void calibrar() {
   offsets.gx = sgx / CALIB_SAMPLES;
   offsets.gy = sgy / CALIB_SAMPLES;
   offsets.gz = sgz / CALIB_SAMPLES;
-  offsets.az += 9.81;
+  offsets.az -= 9.81;
   salvarOffsets();
   Serial.println("Calibração salva.");
 }
@@ -133,7 +133,7 @@ void setup() {
 
   Wire.begin(21, 22);
   mpu.begin();
-  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+  mpu.setAccelerometerRange(MPU6050_RANGE_4_G);
   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
   mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
 
@@ -171,11 +171,12 @@ void loop() {
   float ax = a.acceleration.x - offsets.ax;
   float ay = a.acceleration.y - offsets.ay;
   float az = a.acceleration.z - offsets.az;
-  float gx = g.gyro.x        - offsets.gx;
-  float gy = g.gyro.y        - offsets.gy;
-  float gz = g.gyro.z        - offsets.gz;
+  float gx = g.gyro.x         - offsets.gx;
+  float gy = g.gyro.y         - offsets.gy;
+  float gz = g.gyro.z         - offsets.gz;
 
-  OSCMessage msgAccel("/giromin/accel");
+  String accel_addr = "/giromin/" + String(ID) + "/a";
+  OSCMessage msgAccel(accel_addr.c_str());
   msgAccel.add(normalizeAccel(ax));
   msgAccel.add(normalizeAccel(ay));
   msgAccel.add(normalizeAccel(az));
@@ -184,7 +185,8 @@ void loop() {
   udp.endPacket();
   msgAccel.empty();
 
-  OSCMessage msgGyro("/giromin/gyro");
+  String gyro_addr = "/giromin/" + String(ID) + "/g";
+  OSCMessage msgGyro(gyro_addr.c_str());
   msgGyro.add(normalizeGyro(gx));
   msgGyro.add(normalizeGyro(gy));
   msgGyro.add(normalizeGyro(gz));
@@ -193,5 +195,5 @@ void loop() {
   udp.endPacket();
   msgGyro.empty();
 
-  delay(20);
+  delay(10);
 }
