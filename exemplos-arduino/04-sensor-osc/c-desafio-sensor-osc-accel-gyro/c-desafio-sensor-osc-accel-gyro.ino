@@ -18,8 +18,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Envia acelerômetro e giroscópio via OSC por UDP.
 // Endereços OSC:
-//   /giromin/accel  →  x, y, z  normalizado (-1 a 1)
-//   /giromin/gyro   →  x, y, z  normalizado (-1 a 1)
+//   /giromin/ID/a  →  x, y, z  normalizado (-1 a 1)
+//   /giromin/ID/g   →  x, y, z  normalizado (-1 a 1)
 //   /giromin/ID/b1  →  1 ao apertar, 0 ao soltar
 //
 // CALIBRAÇÃO: segure o botão ao ligar para calibrar e salvar na EEPROM.
