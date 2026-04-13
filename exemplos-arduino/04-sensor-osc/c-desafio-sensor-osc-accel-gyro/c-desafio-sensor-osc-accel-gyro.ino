@@ -42,7 +42,7 @@ const char* password = "dervishmaria";
 const int ID        = 1;
 const int BOTAO_PIN = 5;
 
-IPAddress destIP(192, 168, 1, 100);
+IPAddress destIP(192, 168, 0, 101);
 const int destPort  = 9999;
 const int localPort = 8888;
 
