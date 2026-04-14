@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Dia 6 — Giromin completo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<style>
+  :root {
+    --bg:     #ffffff;
+    --fg:     #111111;
+    --dim:    #999999;
+    --border: #dddddd;
+  }
+
+  .reveal-viewport { background: var(--bg); }
+  .reveal { font-family: 'Menlo', 'Courier New', monospace; color: var(--fg); }
+
+  .reveal .slides section { padding: 0; height: 100%; }
+
+  .reveal h1 { font-size: 2.4em; font-weight: normal; color: var(--fg); letter-spacing: -.01em; text-align: left !important; }
+  .reveal h2 { font-size: 1.3em; font-weight: normal; color: var(--fg); text-align: left !important; }
+
+  .cursor { display: inline-block; animation: blink 1.1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .label {
+    font-size: .55em !important;
+    color: var(--dim) !important;
+    letter-spacing: .12em;
+    align-self: flex-start;
+    font-family: 'Menlo', monospace;
+  }
+
+  .title-slide {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+    padding: 3.5rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+  }
+  .title-slide .pre { font-size: .6em; color: var(--dim); margin-bottom: 1.2em; }
+  .title-slide h1   { margin: 0 0 .3em; line-height: 1.05; }
+  .title-slide .sub { font-size: .65em; color: var(--dim); margin-top: 1.8em; line-height: 2; }
+
+  .scroll-slide {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    padding: 3rem !important;
+    box-sizing: border-box;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .scroll-slide h2 { font-size: 1.4em; font-weight: normal; color: var(--fg); margin: 0 0 1.5rem; flex-shrink: 0; }
+
+  .scroll-inner {
+    overflow-y: scroll;
+    flex: 1;
+    min-height: 0;
+    padding-right: .5rem;
+  }
+  .scroll-inner p, .scroll-inner li { font-size: .72em; color: #444; line-height: 2; }
+  .scroll-inner ul { padding-left: 1.2em; }
+  .scroll-inner .step {
+    border-left: 2px solid var(--border);
+    padding: .8rem 0 .8rem 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .scroll-inner .step .num { font-size: .65em; color: var(--dim); display: block; margin-bottom: .3rem; letter-spacing: .1em; }
+  .scroll-inner .step p { margin: 0; }
+
+  code {
+    font-family: 'Menlo', monospace;
+    font-size: .9em;
+    background: #f5f5f5;
+    padding: .1em .35em;
+    border-radius: 2px;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ── 1. TÍTULO ─────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// dia 6 — Giromin completo</div>
+    <h1>Giromin<br>→ PlugData<span class="cursor">_</span></h1>
+    <div class="sub">
+      João Tragtenberg &amp; Iara Izidoro
+    </div>
+  </div>
+</section>
+
+<!-- ── 2. FIRMWARE ────────────────────────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// firmware — gravar no Giromin</div>
+    <h2>Firmware do Giromin</h2>
+    <div class="scroll-inner" id="firmware-scroll">
+      <div class="step">
+        <span class="num">// baixar</span>
+        <p>
+          Releases do repositório:<br>
+          <code>github.com/jtragtenberg/oficina-programacao-danca/releases</code><br><br>
+          Arquivo: <code>giromin-firmware.zip</code>
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// configurar</span>
+        <p>
+          Abrir <code>giromin-firmware.ino</code> e editar:<br><br>
+          <code>ssid = "NOME_DA_REDE"</code><br>
+          <code>password = "SENHA_DA_REDE"</code><br>
+          <code>ID = 1</code> &nbsp;← número do Giromin<br>
+          <code>destIP(192, 168, x, x)</code> &nbsp;← IP do computador
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// calibração</span>
+        <p>
+          Segure o botão ao ligar → aguarda 3s → calibra → salva na EEPROM.<br>
+          Fazer com o Giromin na posição de repouso (ex: pulso relaxado horizontal).
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// mensagens OSC enviadas</span>
+        <p>
+          <code>/giromin/ID/a</code> &nbsp;→ acelerômetro x, y, z (−1 a 1)<br>
+          <code>/giromin/ID/g</code> &nbsp;→ giroscópio x, y, z (−1 a 1)<br>
+          <code>/giromin/ID/b1</code> → botão: 1 ao apertar, 0 ao soltar
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3. PLUGDATA ────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// parte 2</div>
+    <h1>PlugData<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+<!-- ── 4. INSTALAR PALETA ─────────────────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// setup — paleta de objetos</div>
+    <h2>Instalar a Paleta Giromin</h2>
+    <div class="scroll-inner" id="paleta-scroll">
+      <div class="step">
+        <span class="num">// baixar</span>
+        <p>
+          Releases:<br>
+          <code>github.com/jtragtenberg/oficina-programacao-danca/releases</code><br><br>
+          Arquivo: <code>exemplos-pd.zip</code><br>
+          Dentro: <code>exemplos-pd/giromin.pdpalette</code>
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// instalar — macOS</span>
+        <p>
+          Copiar <code>giromin.pdpalette</code> para:<br>
+          <code>~/Documents/PlugData/Palettes/</code>
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// instalar — Windows</span>
+        <p>
+          Copiar para:<br>
+          <code>%APPDATA%\PlugData\Palettes\</code>
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// instalar — Linux</span>
+        <p>
+          Copiar para:<br>
+          <code>~/.local/share/PlugData/Palettes/</code>
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// ativar</span>
+        <p>
+          Reiniciar o PlugData.<br>
+          A paleta <strong>Giromin</strong> aparece na barra lateral esquerda com blocos prontos para usar.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5. EXEMPLOS PD ─────────────────────────────────────────────── -->
+<section>
+  <div class="scroll-slide">
+    <div class="label">// exemplos — pasta de patches</div>
+    <h2>exemplos-pd/</h2>
+    <div class="scroll-inner" id="exemplos-scroll">
+      <div class="step">
+        <span class="num">// estrutura</span>
+        <p>
+          Cada ciclo tem três arquivos:<br><br>
+          <code>a-base-*.pd</code> &nbsp;&nbsp;← ponto de partida (em branco)<br>
+          <code>b-aula-*.pd</code> &nbsp;&nbsp;← versão da aula com desafio<br>
+          <code>c-desafio-*.pd</code> ← resolução do desafio
+        </p>
+      </div>
+      <div class="step">
+        <span class="num">// ciclos</span>
+        <p>
+          <code>00-primeiro-patch/</code> &nbsp;— criar o primeiro objeto<br>
+          <code>01-som-ligado/</code> &nbsp;&nbsp;&nbsp;&nbsp;— oscilador e volume<br>
+          <code>02-ruido-filtro/</code> &nbsp;&nbsp;&nbsp;— ruído branco e filtro<br>
+          <code>03-recebe-osc/</code> &nbsp;&nbsp;&nbsp;&nbsp;— receber dados do Giromin<br>
+          <code>04-giromin-map/</code> &nbsp;&nbsp;&nbsp;— mapear movimento → som<br>
+          <code>05-giromin-ema/</code> &nbsp;&nbsp;&nbsp;— suavizar o movimento
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 6. CICLO 00 ─────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// ciclo 00</div>
+    <h1>primeiro patch<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+<!-- ── 7. CICLO 01 ────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// ciclo 01</div>
+    <h1>som ligado<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+<!-- ── 8. CICLO 02 ────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// ciclo 02</div>
+    <h1>ruído e filtro<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+<!-- ── 9. CICLO 03 ────────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// ciclo 03</div>
+    <h1>recebe osc<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+<!-- ── 10. CICLO 04 ───────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// ciclo 04</div>
+    <h1>giromin.map<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+<!-- ── 11. CICLO 05 ───────────────────────────────────────────────── -->
+<section>
+  <div class="title-slide">
+    <div class="pre">// ciclo 05</div>
+    <h1>giromin.suavizar<span class="cursor">_</span></h1>
+  </div>
+</section>
+
+</div><!-- .slides -->
+</div><!-- .reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  controls: true,
+  progress: true,
+  center: false,
+  transition: 'none',
+  width: '100%',
+  height: '100%',
+  margin: 0,
+  minScale: 1,
+  maxScale: 1,
+});
+
+var scrollIds = [
+  'firmware-scroll','paleta-scroll','exemplos-scroll'
+];
+scrollIds.forEach(function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  function blockReveal(e) {
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+  }
+  el.addEventListener('wheel',     blockReveal, { passive: false, capture: false });
+  el.addEventListener('wheel',     blockReveal, { passive: false, capture: true  });
+  el.addEventListener('touchmove', blockReveal, { passive: false, capture: false });
+  el.addEventListener('touchmove', blockReveal, { passive: false, capture: true  });
+});
+</script>
+</body>
+</html>
