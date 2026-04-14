@@ -49,6 +49,22 @@ Escolha o arquivo correspondente ao seu sistema operacional:
 
 ---
 
+## Paleta de objetos (giromin.pdpalette)
+
+O arquivo `giromin.pdpalette` (na pasta `exemplos-pd/`) adiciona uma paleta com objetos e blocos prontos do Giromin na barra lateral do PlugData.
+
+**Como instalar:**
+
+1. Copie o arquivo `giromin.pdpalette` para:
+   - **macOS**: `~/Documents/PlugData/Palettes/`
+   - **Linux**: `~/.local/share/PlugData/Palettes/`
+   - **Windows**: `%APPDATA%\PlugData\Palettes\`
+   (crie a pasta `Palettes` se não existir)
+2. Reinicie o PlugData
+3. A paleta **Giromin** vai aparecer na barra lateral esquerda
+
+---
+
 ## Verificar se funcionou
 
 Abra o PlugData, crie um novo patch e digite `giromin.map` numa caixa de objeto.  
