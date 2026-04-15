@@ -133,8 +133,8 @@ void setup() {
 
   Wire.begin(21, 22);
   mpu.begin();
-  mpu.setAccelerometerRange(MPU6050_RANGE_4_G); //Opções de sensibilidade: 2G, 4G, 8G e 16G
-  mpu.setGyroRange(MPU6050_RANGE_500_DEG); //Opções de sensibilidade: 250, 500, 1000, 2000 dps
+  mpu.setAccelerometerRange(MPU6050_RANGE_8_G); //Opções de sensibilidade: 2G, 4G, 8G e 16G
+  mpu.setGyroRange(MPU6050_RANGE_1000_DEG); //Opções de sensibilidade: 250, 500, 1000, 2000 dps
   mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
 
   // Se botão estiver apertado ao ligar → calibrar
